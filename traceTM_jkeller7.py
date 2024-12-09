@@ -5,7 +5,7 @@ def parse_ntm(file_path):
     with open(file_path, 'r') as f:
         reader = csv.reader(f)
         lines = list(reader)
-
+    #parsing csv file
     name = lines[0][0]
     states = lines[1]
     tape_symbols = lines[2]
@@ -15,7 +15,7 @@ def parse_ntm(file_path):
     reject_state = lines[6][0]
     transitions = lines[7:]
 
-    return {
+    return { #return dict
         "name": name,
         "states": states,
         "tape_symbols": tape_symbols,
@@ -56,7 +56,7 @@ def ntm_bfs(ntm, input_string, max_depth=100):
                 direction = t[4]
 
                
-                if state == old_state and old_symbol == head:
+                if state == old_state and old_symbol == head: #check for match
                     b += 1
                     new_left = left
                     new_right = right[1:] if len(right) > 1 else ""  # Remove the head symbol from the tape
@@ -146,6 +146,7 @@ if __name__ == "__main__":
     tree, branches, depth, accept = ntm_bfs(ntm, input_str, 100)
     nondeterminism = branches / depth if depth > 0 else 1
 
+    #output prints
     print(f'Name of Machine: {ntm["name"]}')
     print(f'Initial String: {input_str}')
     print(f'Depth of Tree: {depth}')
@@ -153,7 +154,7 @@ if __name__ == "__main__":
     print(f'Total number of transitions simulated: {branches}')
     print(f"Degree of Nondeterminism: {nondeterminism:.2f}")
 
-
+    #call backtrack
     path = backtrack(tree, ntm['accept_state'])
 
     if not path:
